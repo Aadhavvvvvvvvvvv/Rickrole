@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>gimme gimme some time to think</title>
+  <style>
+    .violet { color: violet; }
+    .indigo { color: indigo; }
+    .blue { color: blue; }
+    .green { color: green; }
+    .yellow { color: yellow; }
+    .orange { color: orange; }
+    .red { color: red; }
+    #ip {
+      float: right;
+    }
+  </style>
+  <script>
+    function validateInput() {
+      var name = document.getElementById("nameField").value;
+      var userInput = document.getElementById("inputField").value.toLowerCase();
+      
+      if (name.trim() === "") {
+        alert("Please enter your name");
+        return;
+      }
+      
+      if (userInput === "yes") {
+        document.getElementById("message").innerHTML = "<h3>You are gonna get reckroled</h3>";
+      } else if (userInput === "no") {
+        document.getElementById("message").innerHTML = "<h3>You are still gonna get reckroled</h3>";
+      } else {
+        document.getElementById("message").innerHTML = "<h3>Please enter 'yes' or 'no'</h3>";
+      }
+
+      var lyrics = `Never gonna give you up
+Never gonna let you down
+Never gonna run around and desert you
+Never gonna make you cry
+Never gonna say goodbye
+Never gonna tell a lie and hurt you`;
+
+      var lines = lyrics.split("\n");
+      var lyricsElement = document.getElementById("lyrics");
+      lyricsElement.innerHTML = "";
+
+      var colors = ["violet", "indigo", "blue", "green", "yellow", "orange", "red"];
+      var colorIndex = 0;
+
+      for (var i = 0; i < lines.length; i++) {
+        var line = lines[i].trim();
+        if (line !== "") {
+          var color = colors[colorIndex % colors.length];
+          lyricsElement.innerHTML += "<h1 class='" + color + "'>" + line + "</h1>";
+          colorIndex++;
+        }
+      }
+
+      // Retrieving IP address
+      var ipElement = document.getElementById("ip");
+      fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+          var ip = data.ip;
+          ipElement.innerHTML = "<h1>Your IP address: " + ip + "</h1>";
+        });
+    }
+
+    function openMessage() {
+      var message = prompt("Leave a message for the founder:");
+      if (message) {
+        var url = "https://www.google.com/search?q=rick+astley+never+gonna+give+you+up+lyrics&rlz=1C1CHBF_enIN1014IN1014&oq=Rick&gs_lcrp=EgZjaHJvbWUqBggAEEUYOzIGCAAQRRg7MgYIARBFGDkyDwgCEC4YQxiDARixAxiKBTIPCAMQLhhDGIMBGLEDGIoFMgwIBBAAGEMYsQMYigUyDwgFEC4YFBiHAhixAxiABDISCAYQLhgUGIMBGIcCGLEDGIAEMgwIBxAAGEMYsQMYigUyCQgIEAAYQxiKBTIJCAkQABhDGIoF0gEIMTQ5MGowajeoAgCwAgA&sourceid=chrome&ie=UTF-8";
+        url += "&message=" + encodeURIComponent(message);
+        window.location.href = url;
+      }
+    }
+  </script>
+</head>
+<body>
+  <h1>You will understand, FAILURE</h1>
+  <br>
+  
+  <label for="nameField">Enter your name:</label>
+  <input type="text" id="nameField">
+  <br><br>
+  
+  <label for="inputField">Enter 'yes' or 'no':</label>
+  <input type="text" id="inputField">
+  <button onclick="validateInput()">Submit</button>
+
+  <div id="message"></div>
+  <div id="lyrics"></div>
+  <div id="ip"></div>
+
+  <button onclick="openMessage()">Leave a message for the founder</button>
+</body>
+</html>
